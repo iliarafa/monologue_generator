@@ -1,23 +1,43 @@
 import React, { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import InputPage from './components/InputPage';
+import ResultPage from './components/ResultPage';
+import PlaywrightSelectPage from './components/PlaywrightSelectPage';
 
 export default function MonologueGenerator() {
   const [inputText, setInputText] = useState('');
-  const [selectedStyle, setSelectedStyle] = useState('beckett');
+  const [selectedStyle, setSelectedStyle] = useState('chekhov');
   const [generatedMonologue, setGeneratedMonologue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [currentView, setCurrentView] = useState('input');
 
   const playwrightStyles = [
+    { value: 'chekhov', label: 'Anton Chekhov', description: 'Subtext, longing, naturalistic dialogue, emotional undercurrents' },
+    { value: 'brecht', label: 'Bertolt Brecht', description: 'Epic theatre, alienation, didactic, political commentary' },
     { value: 'beckett', label: 'Samuel Beckett', description: 'Minimalist, pauses, existential uncertainty' },
-    { value: 'mamet', label: 'David Mamet', description: 'Staccato rhythms, repetition, interrupted speech' },
-    { value: 'tarantino', label: 'Quentin Tarantino', description: 'Pop culture, vernacular, conversational' },
-    { value: 'pinter', label: 'Harold Pinter', description: 'Menacing pauses, power dynamics, subtext' },
+    { value: 'miller', label: 'Arthur Miller', description: 'American tragedy, moral struggle, social critique' },
     { value: 'shepard', label: 'Sam Shepard', description: 'American mythology, fragmented identity, lyricism' },
-    { value: 'churchill', label: 'Caryl Churchill', description: 'Overlapping dialogue, temporal shifts, political' }
+    { value: 'mamet', label: 'David Mamet', description: 'Staccato rhythms, repetition, interrupted speech' },
+    { value: 'mcdonagh', label: 'Martin McDonagh', description: 'Dark comedy, violence, Irish vernacular, moral ambiguity' },
   ];
 
   const stylePrompts = {
+    chekhov: `Transform this into a theatrical monologue in Anton Chekhov's style:
+- Naturalistic, conversational dialogue with rich subtext
+- Characters expressing longing, regret, or unfulfilled desires
+- Emotional undercurrents beneath seemingly mundane speech
+- Pauses that reveal inner life
+- References to time passing, seasons, or the countryside
+- A sense of melancholy mixed with gentle humor`,
+
+    brecht: `Transform this into a theatrical monologue in Bertolt Brecht's style:
+- Epic theatre: the speaker is aware they are performing
+- Alienation effect — breaking the fourth wall, addressing the audience directly
+- Didactic, instructive tone with political commentary
+- Songs or verse interspersed with prose
+- Social and economic critique embedded in personal narrative
+- Rational argumentation over emotional identification`,
+
     beckett: `Transform this into a theatrical monologue in Samuel Beckett's style:
 - Use extensive pauses and silence as structural elements
 - Ambiguous, minimalist stage directions ("sits. Or stands. It doesn't matter")
@@ -26,30 +46,13 @@ export default function MonologueGenerator() {
 - Physical gestures that carry philosophical weight
 - End with an ambiguous or paradoxical stage direction`,
 
-    mamet: `Transform this into a theatrical monologue in David Mamet's style:
-- Staccato rhythms with "Beat." after thoughts
-- Interrupted, self-correcting speech ("It's not— Look.")
-- Direct, confrontational address
-- Strategic profanity for emphasis
-- Repetition of key phrases for rhythmic impact
-- Short, punchy sentences that build momentum`,
-
-    tarantino: `Transform this into a theatrical monologue in Quentin Tarantino's style:
-- Set in casual location (diner booth, car, etc.)
-- Directed at unseen companion
-- Pop culture references woven naturally into philosophy
-- Profanity as conversational punctuation
-- Accessible, vernacular speech patterns
-- Specific details (coffee, milkshake, etc.)
-- End with a needle drop music cue suggestion`,
-
-    pinter: `Transform this into a theatrical monologue in Harold Pinter's style:
-- Menacing pauses that create tension
-- Subtext beneath surface conversation
-- Power dynamics and territorial claims
-- Deliberate, controlled language
-- Sudden shifts in tone or subject
-- Unsettling undercurrent`,
+    miller: `Transform this into a theatrical monologue in Arthur Miller's style:
+- American tragedy: ordinary people facing moral crises
+- Earnest, direct language with building emotional intensity
+- Themes of guilt, responsibility, and social obligation
+- The weight of family expectations and legacy
+- Confession or self-reckoning as dramatic engine
+- A sense of dignity in the face of defeat`,
 
     shepard: `Transform this into a theatrical monologue in Sam Shepard's style:
 - American landscape and mythology
@@ -59,13 +62,21 @@ export default function MonologueGenerator() {
 - Visceral, physical imagery
 - Oscillation between myth and reality`,
 
-    churchill: `Transform this into a theatrical monologue in Caryl Churchill's style:
-- Unconventional structure and formatting
-- Overlapping or fragmentary thoughts
-- Political and social critique embedded
-- Temporal or narrative disruption
-- Dense, layered language
-- Experimental use of form`
+    mamet: `Transform this into a theatrical monologue in David Mamet's style:
+- Staccato rhythms with "Beat." after thoughts
+- Interrupted, self-correcting speech ("It's not— Look.")
+- Direct, confrontational address
+- Strategic profanity for emphasis
+- Repetition of key phrases for rhythmic impact
+- Short, punchy sentences that build momentum`,
+
+    mcdonagh: `Transform this into a theatrical monologue in Martin McDonagh's style:
+- Dark comedy with sudden shifts between humor and violence
+- Irish vernacular and colloquial speech patterns
+- Morally ambiguous characters who justify terrible actions
+- Storytelling within storytelling — anecdotes and digressions
+- Blunt, profane language with poetic undertones
+- A mix of cruelty and tenderness`
   };
 
   const generateMonologue = async () => {
@@ -77,6 +88,7 @@ export default function MonologueGenerator() {
     setIsLoading(true);
     setError('');
     setGeneratedMonologue('');
+    setCurrentView('result');
 
     try {
       const response = await fetch('/api/generate', {
@@ -116,120 +128,56 @@ Create a complete theatrical monologue with proper formatting, stage directions,
     }
   };
 
+  const goBack = () => {
+    setCurrentView('input');
+    setGeneratedMonologue('');
+    setError('');
+  };
+
+  const openPlaywrightSelect = () => {
+    setCurrentView('selectPlaywright');
+  };
+
+  const selectPlaywright = (value) => {
+    setSelectedStyle(value);
+    setCurrentView('input');
+  };
+
+  const selectedStyleLabel = playwrightStyles.find(s => s.value === selectedStyle)?.label || '';
+
   return (
-    <div className="min-h-screen bg-white text-black p-6 font-light" style={{ fontFamily: 'Georgia, serif' }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-light text-black mb-3">
-            Monologue Generator
-          </h1>
-          <p className="text-black text-lg">
-            Transform your thoughts into theatrical monologues
-          </p>
-        </div>
+    <div className="h-screen flex flex-col overflow-hidden bg-white text-black p-4 md:p-6 font-light" style={{ fontFamily: 'Georgia, serif', paddingTop: 'calc(env(safe-area-inset-top) + 16px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', paddingLeft: 'calc(env(safe-area-inset-left) + 16px)', paddingRight: 'calc(env(safe-area-inset-right) + 16px)' }}>
+      <div className="flex-1 min-h-0 overflow-hidden">
+        {currentView === 'input' ? (
+          <InputPage
+            inputText={inputText}
+            setInputText={setInputText}
+            selectedStyle={selectedStyle}
+            playwrightStyles={playwrightStyles}
+            onGenerate={generateMonologue}
+            onSelectPlaywright={openPlaywrightSelect}
+            error={error}
+          />
+        ) : currentView === 'selectPlaywright' ? (
+          <PlaywrightSelectPage
+            playwrightStyles={playwrightStyles}
+            selectedStyle={selectedStyle}
+            onSelect={selectPlaywright}
+            onBack={() => setCurrentView('input')}
+          />
+        ) : (
+          <ResultPage
+            isLoading={isLoading}
+            generatedMonologue={generatedMonologue}
+            error={error}
+            selectedStyleLabel={selectedStyleLabel}
+            onBack={goBack}
+          />
+        )}
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Input Section */}
-          <div className="bg-white p-6 border border-black">
-            <h2 className="text-2xl font-light text-black mb-4">Input</h2>
-
-            <div className="mb-4">
-              <label className="block text-black mb-2 text-sm">
-                Select Playwright Style
-              </label>
-              <select
-                value={selectedStyle}
-                onChange={(e) => setSelectedStyle(e.target.value)}
-                className="w-full bg-white text-black border border-black px-4 py-3 focus:outline-none"
-                style={{ fontFamily: 'Georgia, serif' }}
-              >
-                {playwrightStyles.map(style => (
-                  <option key={style.value} value={style.value}>
-                    {style.label}
-                  </option>
-                ))}
-              </select>
-              <p className="text-black text-xs mt-1">
-                {playwrightStyles.find(s => s.value === selectedStyle)?.description}
-              </p>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-black mb-2 text-sm">
-                Your Text or Conversation
-              </label>
-              <textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Paste your conversation or text here..."
-                className="w-full h-96 bg-white text-black border border-black px-4 py-3 focus:outline-none placeholder-gray-400 resize-none"
-                style={{ fontFamily: 'Georgia, serif' }}
-              />
-            </div>
-
-            <button
-              onClick={generateMonologue}
-              disabled={isLoading || !inputText.trim()}
-              className="w-full bg-white text-black border border-black py-3 px-6 hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
-              style={{ fontFamily: 'Georgia, serif' }}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin mr-2" size={20} />
-                  Generating...
-                </>
-              ) : (
-                'Generate Monologue'
-              )}
-            </button>
-
-            {error && (
-              <div className="mt-4 border border-black text-black px-4 py-3">
-                {error}
-              </div>
-            )}
-          </div>
-
-          {/* Output Section */}
-          <div className="bg-white p-6 border border-black">
-            <h2 className="text-2xl font-light text-black mb-4">
-              Generated Monologue
-              {generatedMonologue && (
-                <span className="text-sm font-light text-black ml-2">
-                  ({playwrightStyles.find(s => s.value === selectedStyle)?.label})
-                </span>
-              )}
-            </h2>
-
-            <div className="border border-black p-4 h-[520px] overflow-y-auto">
-              {generatedMonologue ? (
-                <pre className="text-black whitespace-pre-wrap font-mono text-sm leading-relaxed">
-                  {generatedMonologue}
-                </pre>
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-400 text-center">
-                  Your generated monologue will appear here
-                </div>
-              )}
-            </div>
-
-            {generatedMonologue && (
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(generatedMonologue);
-                }}
-                className="mt-4 w-full bg-white text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200"
-                style={{ fontFamily: 'Georgia, serif' }}
-              >
-                Copy to Clipboard
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-8 text-center text-black text-sm">
-          <p>Powered by Claude AI • Transform conversations into theatrical art</p>
-        </div>
+      <div className="shrink-0 pt-4 text-center text-black text-sm">
+        <p>Powered by Claude AI • Transform conversations into theatrical art</p>
       </div>
     </div>
   );

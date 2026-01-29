@@ -1,4 +1,19 @@
-body {
+html, body, #root {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  -webkit-overflow-scrolling: auto;
+  overscroll-behavior: none;
+  touch-action: none;
 }
+
+textarea, .overflow-y-auto {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+.blink { animation: blink 1s step-end infinite; }
