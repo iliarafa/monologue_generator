@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InputPage({ inputText, setInputText, selectedStyle, playwrightStyles, onGenerate, onSelectPlaywright, error }) {
+export default function InputPage({ inputText, selectedStyle, playwrightStyles, onGenerate, onSelectPlaywright, onSelectText, error }) {
   const current = playwrightStyles.find(s => s.value === selectedStyle);
 
   return (
@@ -27,17 +27,17 @@ export default function InputPage({ inputText, setInputText, selectedStyle, play
           </button>
         </div>
 
-        <div className="mb-3 flex-1 min-h-0 flex flex-col">
-          <label className="block text-black mb-2 text-sm shrink-0">
-            Your Text or Conversation
-          </label>
-          <textarea
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder="Paste your conversation or text here..."
-            className="w-full flex-1 bg-white text-black border border-black px-4 py-3 focus:outline-none placeholder-gray-400 resize-none"
+        <div className="mb-3 shrink-0">
+          <button
+            onClick={onSelectText}
+            className="w-full text-left bg-white text-black border border-black px-4 py-3 hover:bg-black hover:text-white transition-colors duration-200"
             style={{ fontFamily: 'Georgia, serif' }}
-          />
+          >
+            <div className="text-sm mb-1">Input Text</div>
+            <div className="text-lg font-light truncate">
+              {inputText.trim() ? inputText.trim() : 'Tap to enter text...'}
+            </div>
+          </button>
         </div>
 
         <button

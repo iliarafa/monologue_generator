@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputPage from './components/InputPage';
 import ResultPage from './components/ResultPage';
 import PlaywrightSelectPage from './components/PlaywrightSelectPage';
+import TextInputPage from './components/TextInputPage';
 
 export default function MonologueGenerator() {
   const [inputText, setInputText] = useState('');
@@ -10,6 +11,30 @@ export default function MonologueGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [currentView, setCurrentView] = useState('input');
+  const [viewHeight, setViewHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    // Capture the initial viewport height before keyboard opens.
+    // On iOS, visualViewport shrinks when the keyboard appears but
+    // we want the layout to stay fixed at the full screen height.
+    const initialHeight = window.innerHeight;
+    setViewHeight(initialHeight);
+
+    // Prevent iOS from scrolling the webview when inputs are focused
+    const preventScroll = () => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    };
+
+    window.addEventListener('scroll', preventScroll);
+    window.addEventListener('resize', preventScroll);
+
+    return () => {
+      window.removeEventListener('scroll', preventScroll);
+      window.removeEventListener('resize', preventScroll);
+    };
+  }, []);
 
   const playwrightStyles = [
     { value: 'chekhov', label: 'Anton Chekhov', description: 'Subtext, longing, naturalistic dialogue, emotional undercurrents' },
@@ -138,6 +163,10 @@ Create a complete theatrical monologue with proper formatting, stage directions,
     setCurrentView('selectPlaywright');
   };
 
+  const openTextInput = () => {
+    setCurrentView('textInput');
+  };
+
   const selectPlaywright = (value) => {
     setSelectedStyle(value);
     setCurrentView('input');
@@ -146,16 +175,16 @@ Create a complete theatrical monologue with proper formatting, stage directions,
   const selectedStyleLabel = playwrightStyles.find(s => s.value === selectedStyle)?.label || '';
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-white text-black p-4 md:p-6 font-light" style={{ fontFamily: 'Georgia, serif', paddingTop: 'calc(env(safe-area-inset-top) + 16px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', paddingLeft: 'calc(env(safe-area-inset-left) + 16px)', paddingRight: 'calc(env(safe-area-inset-right) + 16px)' }}>
+    <div className="flex flex-col overflow-hidden bg-white text-black p-4 md:p-6 font-light" style={{ fontFamily: 'Georgia, serif', height: viewHeight, paddingTop: 'calc(env(safe-area-inset-top) + 16px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', paddingLeft: 'calc(env(safe-area-inset-left) + 16px)', paddingRight: 'calc(env(safe-area-inset-right) + 16px)' }}>
       <div className="flex-1 min-h-0 overflow-hidden">
         {currentView === 'input' ? (
           <InputPage
             inputText={inputText}
-            setInputText={setInputText}
             selectedStyle={selectedStyle}
             playwrightStyles={playwrightStyles}
             onGenerate={generateMonologue}
             onSelectPlaywright={openPlaywrightSelect}
+            onSelectText={openTextInput}
             error={error}
           />
         ) : currentView === 'selectPlaywright' ? (
@@ -163,6 +192,12 @@ Create a complete theatrical monologue with proper formatting, stage directions,
             playwrightStyles={playwrightStyles}
             selectedStyle={selectedStyle}
             onSelect={selectPlaywright}
+            onBack={() => setCurrentView('input')}
+          />
+        ) : currentView === 'textInput' ? (
+          <TextInputPage
+            inputText={inputText}
+            setInputText={setInputText}
             onBack={() => setCurrentView('input')}
           />
         ) : (
