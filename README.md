@@ -1,15 +1,16 @@
-# Monologue Generator
+# Think That, Say That
 
-A web app that transforms text into theatrical monologues in the style of famous playwrights. Paste any text, pick a style, and Claude AI rewrites it as a stage monologue.
+A web app that transforms text into theatrical monologues in the style of famous playwrights. Paste any text, pick a style, and Claude AI rewrites it as a stage monologue. Export your monologue as PDF, DOC, or CSV.
 
 ## Playwright Styles
 
+- **Anton Chekhov** — Subtext, longing, naturalistic dialogue, emotional undercurrents
+- **Bertolt Brecht** — Epic theatre, alienation effect, didactic, political commentary
 - **Samuel Beckett** — Minimalist, pauses, existential uncertainty
-- **David Mamet** — Staccato rhythms, repetition, interrupted speech
-- **Quentin Tarantino** — Pop culture, vernacular, conversational
-- **Harold Pinter** — Menacing pauses, power dynamics, subtext
+- **Arthur Miller** — American tragedy, moral struggle, social critique
 - **Sam Shepard** — American mythology, fragmented identity, lyricism
-- **Caryl Churchill** — Overlapping dialogue, temporal shifts, political
+- **David Mamet** — Staccato rhythms, repetition, interrupted speech
+- **Martin McDonagh** — Dark comedy, violence, Irish vernacular, moral ambiguity
 
 ## Setup
 
@@ -43,9 +44,21 @@ npm start
 
 The app will be available at http://localhost:3000.
 
+## iOS (Capacitor)
+
+The app includes Capacitor integration for iOS deployment. After building the React app, sync and open in Xcode:
+
+```
+npm run build
+npx cap sync ios
+npx cap open ios
+```
+
 ## Tech Stack
 
 - React
 - Tailwind CSS
 - Express (API proxy)
 - Claude API (claude-sonnet-4-20250514)
+- Capacitor (iOS)
+- jsPDF (PDF export)
