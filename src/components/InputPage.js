@@ -6,11 +6,11 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
   return (
     <div className="max-w-2xl mx-auto h-full flex flex-col">
       <div className="text-center mb-4 shrink-0">
-        <h1 className="text-3xl md:text-5xl font-light text-black mb-1">
-          Monolog.
+        <h1 className="text-3xl md:text-5xl font-bold text-black mb-1">
+          monolog.
         </h1>
-        <p className="text-black text-lg">
-          Transform your thoughts into theatrical monologues
+        <p className="text-black text-sm">
+          Transform your thoughts into monologues
         </p>
       </div>
 
@@ -20,7 +20,7 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
             onClick={onSelectPlaywright}
             className="w-full text-left bg-white text-black border border-black px-4 py-3 hover:bg-black hover:text-white transition-colors duration-200"
           >
-            <div className="text-sm mb-1">Select Playwright</div>
+            <div className="text-sm font-semibold mb-1">Select Playwright</div>
             <div className="text-lg font-light">{current?.label}</div>
             <div className="text-xs mt-1 opacity-80">{current?.description}</div>
           </button>
@@ -31,7 +31,7 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
             onClick={onSelectText}
             className="w-full text-left bg-white text-black border border-black px-4 py-3 hover:bg-black hover:text-white transition-colors duration-200"
           >
-            <div className="text-sm mb-1">Input Text</div>
+            <div className="text-sm font-semibold mb-1">Input Text</div>
             <div className="text-lg font-light truncate">
               {inputText.trim() ? inputText.trim() : 'Tap to enter text...'}
             </div>
