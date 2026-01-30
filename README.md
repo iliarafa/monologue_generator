@@ -1,4 +1,4 @@
-# Think That, Say That
+# Monolog.
 
 A web app that transforms text into theatrical monologues in the style of famous playwrights. Paste any text, pick a style, and Claude AI rewrites it as a stage monologue. Export your monologue as PDF, DOC, or CSV.
 

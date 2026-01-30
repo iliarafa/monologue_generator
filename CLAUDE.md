@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Think That, Say That** — A React app that generates theatrical monologues in the style of famous playwrights using the Anthropic API. Includes iOS support via Capacitor.
+**Monolog.** — A React app that generates theatrical monologues in the style of famous playwrights using the Anthropic API. Includes iOS support via Capacitor.
 
 ## Commands
 
