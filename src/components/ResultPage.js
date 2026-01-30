@@ -14,7 +14,6 @@ export default function ResultPage({ isLoading, generatedMonologue, error, selec
       <button
         onClick={onBack}
         className="mb-4 shrink-0 text-black hover:bg-black hover:text-white transition-colors duration-200 px-2 py-1"
-        style={{ fontFamily: 'Georgia, serif' }}
       >
         ← Back
       </button>
@@ -46,7 +45,7 @@ export default function ResultPage({ isLoading, generatedMonologue, error, selec
           </h2>
 
           <div className="border border-black p-4 overflow-y-auto flex-1 min-h-0">
-            <pre className="text-black whitespace-pre-wrap font-mono text-sm leading-relaxed">
+            <pre className="text-black whitespace-pre-wrap text-sm leading-relaxed">
               {generatedMonologue}
             </pre>
           </div>
@@ -60,21 +59,18 @@ export default function ResultPage({ isLoading, generatedMonologue, error, selec
             <button
               onClick={() => exportAsPDF(generatedMonologue, selectedStyleLabel)}
               className="flex-1 bg-white text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200"
-              style={{ fontFamily: 'Georgia, serif' }}
             >
               Export PDF
             </button>
             <button
               onClick={() => exportAsDOC(generatedMonologue, selectedStyleLabel)}
               className="flex-1 bg-white text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200"
-              style={{ fontFamily: 'Georgia, serif' }}
             >
               Export DOC
             </button>
             <button
               onClick={() => exportAsCSV(generatedMonologue, selectedStyleLabel)}
               className="flex-1 bg-white text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200"
-              style={{ fontFamily: 'Georgia, serif' }}
             >
               Export CSV
             </button>
@@ -83,7 +79,6 @@ export default function ResultPage({ isLoading, generatedMonologue, error, selec
           <button
             onClick={() => navigator.clipboard.writeText(generatedMonologue)}
             className="mt-3 shrink-0 w-full bg-white text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200"
-            style={{ fontFamily: 'Georgia, serif' }}
           >
             Copy to Clipboard
           </button>

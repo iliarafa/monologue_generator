@@ -180,7 +180,7 @@ Create a complete theatrical monologue with proper formatting, stage directions,
   const selectedStyleLabel = playwrightStyles.find(s => s.value === selectedStyle)?.label || '';
 
   return (
-    <div className="flex flex-col overflow-hidden bg-white text-black p-4 md:p-6 font-light" style={{ fontFamily: 'Georgia, serif', height: viewHeight, paddingTop: 'calc(env(safe-area-inset-top) + 16px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', paddingLeft: 'calc(env(safe-area-inset-left) + 16px)', paddingRight: 'calc(env(safe-area-inset-right) + 16px)' }}>
+    <div className="flex flex-col overflow-hidden bg-white text-black p-4 md:p-6 font-light" style={{ height: viewHeight, paddingTop: 'calc(env(safe-area-inset-top) + 16px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', paddingLeft: 'calc(env(safe-area-inset-left) + 16px)', paddingRight: 'calc(env(safe-area-inset-right) + 16px)' }}>
       <div className="flex-1 min-h-0 overflow-hidden">
         {currentView === 'input' ? (
           <InputPage

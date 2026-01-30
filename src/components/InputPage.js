@@ -19,7 +19,6 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
           <button
             onClick={onSelectPlaywright}
             className="w-full text-left bg-white text-black border border-black px-4 py-3 hover:bg-black hover:text-white transition-colors duration-200"
-            style={{ fontFamily: 'Georgia, serif' }}
           >
             <div className="text-sm mb-1">Select Playwright</div>
             <div className="text-lg font-light">{current?.label}</div>
@@ -31,7 +30,6 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
           <button
             onClick={onSelectText}
             className="w-full text-left bg-white text-black border border-black px-4 py-3 hover:bg-black hover:text-white transition-colors duration-200"
-            style={{ fontFamily: 'Georgia, serif' }}
           >
             <div className="text-sm mb-1">Input Text</div>
             <div className="text-lg font-light truncate">
@@ -44,7 +42,6 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
           onClick={onGenerate}
           disabled={!inputText.trim()}
           className="w-full shrink-0 bg-white text-black border border-black py-3 px-6 hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-          style={{ fontFamily: 'Georgia, serif' }}
         >
           Generate Monologue
         </button>

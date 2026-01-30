@@ -7,7 +7,6 @@ export default function PlaywrightSelectPage({ playwrightStyles, selectedStyle, 
         <button
           onClick={onBack}
           className="text-black border border-black px-4 py-2 hover:bg-black hover:text-white transition-colors duration-200"
-          style={{ fontFamily: 'Georgia, serif' }}
         >
           ← Back
         </button>
@@ -27,7 +26,6 @@ export default function PlaywrightSelectPage({ playwrightStyles, selectedStyle, 
                 ? 'bg-black text-white'
                 : 'bg-white text-black hover:bg-black hover:text-white'
             }`}
-            style={{ fontFamily: 'Georgia, serif' }}
           >
             <div className="text-lg font-light">{style.label}</div>
             <div className="text-xs mt-1 opacity-80">{style.description}</div>

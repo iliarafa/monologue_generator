@@ -17,7 +17,7 @@ function triggerDownload(blob, filename) {
 
 export function exportAsPDF(text, styleLabel) {
   const doc = new jsPDF();
-  doc.setFont('times', 'normal');
+  doc.setFont('courier', 'normal');
   doc.setFontSize(12);
   const lines = doc.splitTextToSize(text, 170);
   let y = 20;
@@ -37,7 +37,7 @@ export function exportAsPDF(text, styleLabel) {
 }
 
 export function exportAsDOC(text, styleLabel) {
-  const html = `<html><head><meta charset="utf-8"><title>Monologue</title></head><body><h1>Monologue &mdash; ${styleLabel}</h1><pre style="font-family:Georgia,serif;white-space:pre-wrap;">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></body></html>`;
+  const html = `<html><head><meta charset="utf-8"><title>Monologue</title></head><body><h1>Monologue &mdash; ${styleLabel}</h1><pre style="font-family:'Courier New',Courier,monospace;white-space:pre-wrap;">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></body></html>`;
   const blob = new Blob([html], { type: 'application/msword' });
   triggerDownload(blob, `monologue-${slug(styleLabel)}.doc`);
 }

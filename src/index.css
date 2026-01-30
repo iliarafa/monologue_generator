@@ -8,6 +8,7 @@ html, body, #root {
   -webkit-overflow-scrolling: auto;
   overscroll-behavior: none;
   touch-action: none;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 textarea, .overflow-y-auto {
