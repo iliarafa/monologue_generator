@@ -116,7 +116,7 @@ export default function MonologueGenerator() {
     setCurrentView('result');
 
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch('http://localhost:3002/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,13 +140,18 @@ Create a complete theatrical monologue with proper formatting, stage directions,
 
       const data = await response.json();
 
-      if (data.content && data.content[0] && data.content[0].text) {
+      if (!response.ok) {
+        const message = data.error?.message || JSON.stringify(data);
+        setError(`API error: ${message}`);
+      } else if (data.content && data.content[0] && data.content[0].text) {
         setGeneratedMonologue(data.content[0].text);
       } else {
         setError('Failed to generate monologue. Please try again.');
       }
     } catch (err) {
-      setError('An error occurred while generating the monologue.');
+      setError(err.message === 'Failed to fetch'
+        ? 'Could not connect to the server. Make sure "npm run server" is running.'
+        : `An error occurred: ${err.message}`);
       console.error(err);
     } finally {
       setIsLoading(false);
