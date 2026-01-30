@@ -3,6 +3,7 @@ import InputPage from './components/InputPage';
 import ResultPage from './components/ResultPage';
 import PlaywrightSelectPage from './components/PlaywrightSelectPage';
 import TextInputPage from './components/TextInputPage';
+import GenerationsPage from './components/GenerationsPage';
 
 export default function MonologueGenerator() {
   const [inputText, setInputText] = useState('');
@@ -11,6 +12,7 @@ export default function MonologueGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [currentView, setCurrentView] = useState('input');
+  const [generations, setGenerations] = useState([]);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
 
   useEffect(() => {
@@ -144,7 +146,14 @@ Create a complete theatrical monologue with proper formatting, stage directions,
         const message = data.error?.message || JSON.stringify(data);
         setError(`API error: ${message}`);
       } else if (data.content && data.content[0] && data.content[0].text) {
-        setGeneratedMonologue(data.content[0].text);
+        const text = data.content[0].text;
+        setGeneratedMonologue(text);
+        setGenerations(prev => [...prev, {
+          text,
+          wordCount: text.trim().split(/\s+/).length,
+          time: new Date(),
+          author: selectedStyleLabel,
+        }]);
       } else {
         setError('Failed to generate monologue. Please try again.');
       }
@@ -190,7 +199,13 @@ Create a complete theatrical monologue with proper formatting, stage directions,
             onGenerate={generateMonologue}
             onSelectPlaywright={openPlaywrightSelect}
             onSelectText={openTextInput}
+            onOpenGenerations={() => setCurrentView('generations')}
             error={error}
+          />
+        ) : currentView === 'generations' ? (
+          <GenerationsPage
+            generations={generations}
+            onBack={() => setCurrentView('input')}
           />
         ) : currentView === 'selectPlaywright' ? (
           <PlaywrightSelectPage

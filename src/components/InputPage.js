@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InputPage({ inputText, selectedStyle, playwrightStyles, onGenerate, onSelectPlaywright, onSelectText, error }) {
+export default function InputPage({ inputText, selectedStyle, playwrightStyles, onGenerate, onSelectPlaywright, onSelectText, onOpenGenerations, error }) {
   const current = playwrightStyles.find(s => s.value === selectedStyle);
 
   return (
@@ -44,6 +44,15 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
           className="w-full shrink-0 bg-white text-black border border-black py-3 px-6 hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           Generate Monologue
+        </button>
+
+        <div className="flex-1" />
+
+        <button
+          onClick={onOpenGenerations}
+          className="w-full shrink-0 bg-white text-black border border-black py-3 px-6 hover:bg-black hover:text-white transition-colors duration-200"
+        >
+          Generations
         </button>
 
         {error && (
