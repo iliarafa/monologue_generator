@@ -13,7 +13,7 @@ export default function GenerationsPage({ generations, onBack }) {
       </div>
 
       <h1 className="text-3xl md:text-5xl font-bold text-black mb-4 shrink-0">
-        generations.
+        Generations
       </h1>
 
       <div className="flex-1 min-h-0 overflow-y-auto border border-black p-4">

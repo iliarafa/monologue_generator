@@ -7,10 +7,10 @@ export default function InputPage({ inputText, selectedStyle, playwrightStyles, 
     <div className="max-w-2xl mx-auto h-full flex flex-col">
       <div className="text-center mb-4 shrink-0">
         <h1 className="text-3xl md:text-5xl font-bold text-black mb-1">
-          monolog.
+          monolog
         </h1>
         <p className="text-black text-sm">
-          Transform your thoughts into monologues
+          your thoughts, monologued
         </p>
       </div>
 
